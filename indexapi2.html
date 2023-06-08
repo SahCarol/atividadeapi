@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LH Games</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="index.html" href="#"><img src="img/logo.png"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Promoções</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Console</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Jogos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">#Login</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="O que deseja buscar?" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section id="section-banners" class="container-fluid">
+      <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+
+          <div class="carousel-item">
+            <img src="img/banner2.PNG" class="d-block w-100" alt="PROMOÇÃO DE PRODUTOS">
+          </div>
+          <div class="carousel-item">
+            <img src="img/banner3.PNG" class="d-block w-100" alt="PRODUTOS NOVOS">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="section-vendidos" class="container-fluid">
+      <h2>OS MAIS VENDIDOS</h2>
+      <div id="product-container" class="card-group">
+        <!-- Uso de JavaScript para adicionar os jogos -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Give space -->
+  <div class="container-fluid" style="height: 50px;"></div>
+
+
+
+  <button id="voltar-topo" type="button" class="btn btn-outline-primary" onclick="topo()">&uarr; Voltar ao topo</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    function createProductCard(product) {
+      var cardGroup = document.getElementById('product-container');
+
+      var card = document.createElement('div');
+      card.className = 'card';
+      card.style = 'width: 18rem;';
+
+      var img = document.createElement('img');
+      img.src = product.imagem;
+      img.className = 'card-img-top';
+      img.alt = product.nome;
+      // limit the size of the image to 250
+      img.style = 'max-height: 250px; object-fit: contain;';
+
+      var cardBody = document.createElement('div');
+      cardBody.className = 'card-body';
+
+      var title = document.createElement('h5');
+      title.className = 'card-title';
+      title.textContent = product.nome;
+
+      var description = document.createElement('p');
+      description.className = 'card-text';
+      description.textContent = product.descricao;
+
+      var price = document.createElement('p');
+      price.className = 'preco';
+      price.textContent = product.preco;
+
+      var buyButton = document.createElement('a');
+      buyButton.href = '#';
+      buyButton.className = 'btn btn-primary';
+      buyButton.textContent = 'Comprar';
+
+      cardBody.appendChild(title);
+      cardBody.appendChild(description);
+      cardBody.appendChild(price);
+      cardBody.appendChild(buyButton);
+
+      card.appendChild(img);
+      card.appendChild(cardBody);
+
+      cardGroup.appendChild(card);
+    }
+
+    // Function to load products from the API
+    function loadProducts() {
+      axios.get('http://localhost:3000/produtos').then((response) => {
+          var products = response.data;
+          products.forEach(function (product) {
+            createProductCard(product);
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProducts)
+  </script>
+</body>
+
+</html>
